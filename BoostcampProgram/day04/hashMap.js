@@ -1,5 +1,3 @@
-// HashMap의 자바스크립트 구현
-
 // Key를 hashing하는 함수 구현
 const bucketSize =  1e9+9;
 const Hash = (key) =>{
@@ -16,7 +14,7 @@ const Hash = (key) =>{
 }
 
 // hashMap
-function HashMap() {
+function Hashmap() {
     this._map = [];
     this._mapKey = [];
     this._size = 0;
@@ -35,6 +33,8 @@ function HashMap() {
 // 전체 맵을 초기화
 function clear(){
     this._map = [];
+    this._mapKey = [];
+    this._size = 0;
 }
 
 // 해당 키가 존재하는지 판단해서 Bool 결과를 리턴
@@ -101,4 +101,4 @@ function size(){
     return this._size;    
 }
 
-hashmap = new HashMap();
+module.exports = { Hashmap };
