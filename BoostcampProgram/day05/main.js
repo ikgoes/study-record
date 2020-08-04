@@ -1,3 +1,6 @@
+// main.js 수행하면 된다.
+// map 출력 수정이 필요해보인다..
+
 const { Line, Triangle, Rectengle } = require("./poly.js");             // 도형 클래스
 const { Coordinate } = require("./coordinate.js");                      // 좌표 클래스
 
@@ -59,6 +62,9 @@ const action = (cmd) => {
 
 // 처리
 const handle = (coorLen, coorSet)=>{
+    coorSet.sort(function (a,b){
+        return a.x > b.x ? -1 : a.x < b.x ? 0: 1 ;    
+    });
     switch(coorLen){
         case 2:
             let segment = new Line(coorSet[0], coorSet[1]);
@@ -96,8 +102,8 @@ const drawMap = (coor) => {
         }
         for(let j in coor){
             if(coor[j].y === i){
-                if(coor[j].x>0){
-                    line += "   ".repeat(coor[j].x - 1);
+                if(coor[j].x > 0){
+                    line += "  ".repeat(coor[j].x );
                     line += "*";
                 }
                 else{
@@ -107,8 +113,8 @@ const drawMap = (coor) => {
         }
         console.log(line);
     }
-    console.log("  +_______________________________________________________________________"); 
-    console.log(" 0     2     4     6     8    10    12   14    16    18    20    22    24");
+    console.log("  +_________________________________________________________________________"); 
+    console.log(" 0     2     4     6     8    10    12    14    16    18    20    22    24");
 }
 
 const inRange = (num) => {
