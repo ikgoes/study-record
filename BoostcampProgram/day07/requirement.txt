@@ -1,0 +1,23 @@
+// Array 파서 -  컴파일러와 인터프리터, 파서등의 프로그램은 우리가 작성하는 프로그램 코드를 해석하고 분석한다. 
+//               파일 중에서 문자열을 분석하는 파싱과정을 이해하고 프로그래밍을 하면 더 효율적인 방법을 생각하게 된다.
+
+// 예시
+// const str = "[1, [2,[3]],'hello', 'world', null]";
+// const result = ArrayParser(str);
+// console.log(result); 
+
+// { type: 'array',
+//   child: 
+//    [ 
+//      { type: 'number', value: '1', child: [] },
+//      { type: 'array', child: [
+// 		    { type: 'number', value: '2', child: [] },
+//         	{ type: 'array', child: [
+// 		    	{ type: 'number', value: '3', child: [] },          
+//      		]},
+//      ]},
+//      { type: 'string', value: 'hello', child: [] },
+//      { type: 'string', value: 'world', child: [] },
+//      { type: 'NULL', value: 'null', child: [] } 
+//    ] 
+// }
