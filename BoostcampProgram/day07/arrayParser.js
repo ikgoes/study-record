@@ -2,7 +2,7 @@
 //               파일 중에서 문자열을 분석하는 파싱과정을 이해하고 프로그래밍을 하면 더 효율적인 방법을 생각하게 된다.
 
 function makeObj({type, value}){
-    if(type === "Array") return {type, child:[]}
+    if(type === "array") return {type, child:[]}
     return {
         type: type,
         value: value,
@@ -21,7 +21,7 @@ const lexer = (str) =>{
         const checkStr = (s) => {return (/[A-Za-z]+/g).test(s);}; 
         switch(true){
             case '[' === char:
-                return "LBracket";
+                return "array";
                 break;
             case ']' === char:
                 return "RBracket";
@@ -44,42 +44,37 @@ const lexer = (str) =>{
 };
 
 const parser = (objList) => {
-    const LBracketCount = objList.filter(({type}) => type === "LBracket").length
+    const LBracketCount = objList.filter(({type}) => type === "array").length
     const RBracketCount = objList.filter(({type}) => type === "RBracket").length
     if(LBracketCount !== RBracketCount) {
         throw new Error("The array is not closed");
     } 
 
-    let obj = {type : undefined, child : []};
-    if(objList[0].value === '['){
-        obj.child.push(parser(objList.shift()));
-    }else if(objList[0].value === ']'){
+    const res = {type:"head", child :[]};
+    const st = [];
+    for(idx in objList){
+      const obj = objList[idx];
+      if(obj.type === "array"){
+        st.push(obj);
+      }
+      if(obj.type === "number" || obj.type === "string" || obj.type === "NULL"){
+        st[st.length-1].child.push(obj);
+      }
+      if(obj.type === "RBracket"){
+        const top = st.pop();
+        const len = st.length;
+        if(len === 0) res.child.push(top);
+        else st[len - 1].child.push(top);
+      }
     }
-    else{
-        obj = {type :  objList[0].type, value : objList[0].value};
-    }
-        
-    return obj;
-    // let obj = {type : undefined, child : []};
-    // console.log(objList[index]);
-    // if(objList[index].type === 'LBracket'){
-    //     let right = objList.reduce((acc, obj, idx) => obj.type === "RBracket" ? idx: acc, -1);
-    //     let subList = objList.slice(1, right); 
-    //     return obj = {type : 'Array', child : obj.child.push(parser(subList, 0))};
-    // }else if(objList[index].type === 'RBracket'){
-    //     return;
-    // }
-    // else{
-    //     obj = {type : objList[index].type, value : objList[index].value};
-    //     return obj; 
-    // }
+    return res;
 }
 
 try{
     const str = "[1, [2,[3]],'hello', 'world', null]";
     const ArrayParser = (str) =>{ return parser(lexer(tokenizer(str))); }
     const result = ArrayParser(str);
-    console.log(JSON.stringify(result,null,2));
+    console.dir(result,{depth:null});
 } catch(err){
     console.log("Error Message : ", err.message);
 }
