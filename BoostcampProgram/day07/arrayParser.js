@@ -71,10 +71,13 @@ const parser = (objList) => {
 }
 
 try{
-    const str = "[1, [2,[3]],'hello', 'world', null]";
+    const str = "[1, [2,[3,[4,[5]]]],'hello', 'world', null]";
     const ArrayParser = (str) =>{ return parser(lexer(tokenizer(str))); }
     const result = ArrayParser(str);
     console.dir(result,{depth:null});
+    const str2 = "[[1,[2,[3],'hello']]";
+    const result2 = ArrayParser(str2);
+    console.dir(result2, {depth:null});
 } catch(err){
     console.log("Error Message : ", err.message);
 }
