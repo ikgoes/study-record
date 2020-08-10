@@ -1,0 +1,10 @@
+/>init hello
+created hello repository.
+
+/>status
+hello/
+
+/>checkout hello
+/hello/>checkout
+
+/>quit
