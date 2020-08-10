@@ -1,9 +1,10 @@
+const {
+    File
+} = require("./File.js");
+
 class Repository {
-    constructor(name){
-        this.name = name;
-        this.self = new Repository;
-        this.parent = new Repository;
-        this.sub = new Repository;
+    constructor(){
+        this.repository = [];
     }
 }
 
