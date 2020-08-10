@@ -61,6 +61,7 @@ class CPU {
                 this.register[operand1] = operand2;
                 break;
         }
+        console.log(this.register);
         this.fetch();
     }
     dump() {
@@ -93,5 +94,6 @@ const IR = [
     "STORE R3, R4, #4"
 ];
 cpu = new CPU;
+console.log("0xA0 + 0x02 \'s memory is set to 10");
+cpu.memory.set(0xA0 + 0x02,10);
 cpu.fetch();
-
