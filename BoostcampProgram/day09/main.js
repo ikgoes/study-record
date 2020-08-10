@@ -1,6 +1,8 @@
 // DVCS 분산 저장소인 Git을 구현한다.
 
-const { Git } = require("./vmgit.js"); 
+const {
+    Git
+} = require("./vmgit.js");
 
 git = new Git();
 
@@ -15,7 +17,9 @@ const {
 const {
     inherits
 } = require("util");
-const { getPriority } = require("os");
+const {
+    getPriority
+} = require("os");
 var r = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -27,7 +31,7 @@ r.on('line', function (line) {
         r.close();
     }
     action(line);
-    r.setPrompt(((git.curDir==="")?"":("/"+git.curDir))+'/>');
+    r.setPrompt(((git.local.curDir === "") ? "" : ("/" + git.local.curDir)) + '/>');
     console.log();
     r.prompt();
 });
@@ -48,36 +52,48 @@ const action = (line) => {
             git.checkout(cmd[1]);
             break;
         case "new":
-            if(git.curDir === "")
+            if (git.local.curDir === "")
                 console.log("no working repository");
             else
-                git.newFile(cmd[1]);
+                git.newFile(String(line.match(/ [\w ]*/g)).trim());
             break;
         case "update":
-            if(git.curDir === "")
+            if (git.local.curDir === "")
                 console.log("no working repository");
             else
                 git.update(cmd[1]);
             break;
         case "add":
-            if(git.curDir === "")
+            if (git.local.curDir === "")
                 console.log("no working repository");
             else
                 git.add(cmd[1]);
             break;
         case "commit":
-            const message = line.slice(line.indexOf(' ')+1);
-            if(git.curDir === "")
+            const message = String(line.match(/ [\w ]*/g)).trim();
+            if (git.local.curDir === "")
                 console.log("no working repository");
             else
-                git.commit(message);
+                git.commits(message);
+            break;
+        case "log":
+            git.log();
+            break;
+        case "push":
+            if(git.commit.message.size === 0)
+                console.log("Everything is up to date");
+            else
+            {
+                git.push();
+                git.clear();
+            }
             break;
         case "quit":
             exit();
             break;
         case "help":
             console.log("possibe commands are following : ");
-            console.log("init / status / checkout / new / update / add / commit / quit");
+            console.log("init / status / checkout / new / update / add / commit / log / push / quit");
             break;
         default:
             console.log("wrong command, type \"help\" to check commands");

@@ -1,8 +1,13 @@
+class Commit {
+    constructor() {
+        this.message = [];
+    }
 
-class Commit{
-    constructor(){
-        this.commit = [];
+    clear = () => {
+        this.message = [];
     }
 }
 
-module.exports = { Commit };
+module.exports = {
+    Commit
+};
