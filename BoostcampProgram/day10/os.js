@@ -1,3 +1,5 @@
+// 프로세스의 구조와, 쓰레드 간단 구현
+
 const {
     Process
 } = require("./process.js");
