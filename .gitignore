@@ -1,5 +1,4 @@
 *.log
 *.txt
-*iml
-.DS_STORE
-.zip
+*.iml
+*.zip
