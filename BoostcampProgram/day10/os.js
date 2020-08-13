@@ -54,9 +54,9 @@ class OS {
 
     execute = () => {
         this.scheduelProcess();
-        if (this.readyForRun(this._queue[this._index % 4])) {
-            this._queue[this._index % 4]._status = "running";
-            this._queue[this._index % 4]._time++;
+        if (this.readyForRun(this._queue[this._index])) {
+            this._queue[this._index]._status = "running";
+            this._queue[this._index]._time++;
         }
         if (this.printProcess() === -1) {
             return;
@@ -67,8 +67,8 @@ class OS {
 
     // 작업할 프로세스를 반환해준다
     scheduelProcess = () => {
-        this._index++;
-        if (this._queue[this._index % 4].status === "terminated"){
+        this._index = (this._index + 1) % 4;
+        if (this._queue[this._index].status === "terminated"){
             this.scheduelProcess();
         }
         return;
