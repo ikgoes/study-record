@@ -61,5 +61,5 @@ if (!amount) {
 } else {
     console.log("id,money,date");
     for (let i = 0; i < amount; i++)
-        console.log(getWord() + '_' + getAlpha() + '_' + getNum()+','+ getMoney()+','+ getDate(new Date(2020, 6, 15,0,0,0), new Date(2020, 7, 15,23,59,59)));
+        console.log([getWord() + '_' + getAlpha() + '_' + getNum() +',' +getMoney()+','+ getDate(new Date(2020, 6, 15,0,0,0), new Date(2020, 7, 15,23,59,59))]);
 }
