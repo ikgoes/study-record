@@ -2,3 +2,6 @@
 *.txt
 *.iml
 *.zip
+*.json
+*.csv
+node_modules/

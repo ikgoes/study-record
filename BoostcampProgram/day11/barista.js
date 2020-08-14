@@ -7,7 +7,7 @@ class Barista extends EventEmitter{
         this._status = { work1 : 0 , work2 : 0}; // 0 : 아무것도 하지 않는 상태
 
         this.on('makeDrink', (order, which) =>{
-            let time = (order.drink == 1)?3:((order.drink == 2)?5:((order.drink ==3)10:0));
+            let time = (order.drink == 1)?3:((order.drink == 2)?5:((order.drink ==3)?10:0));
             setTimeout(function(){
                 
             },time*1000);

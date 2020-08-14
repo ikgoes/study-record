@@ -9,7 +9,6 @@ const {
     Manager
 } = require("./manager.js");
 
-const EventEmitter = require('events');
 
 class Cafe extends EventEmitter {
     constructor(name) {
@@ -41,6 +40,7 @@ class Cafe extends EventEmitter {
             this.showMenu();
             this.takeOrder();
         });
+
     }
 
     takeOrder(){
@@ -54,7 +54,7 @@ class Cafe extends EventEmitter {
     hireBarista = (num) => {
         while(num--){
             let passedBarista = new Barista(this._manager);
-            this._baristas.push(passedBarista);
+            this._manager._baristas.push(passedBarista);
         }
     }
 }
