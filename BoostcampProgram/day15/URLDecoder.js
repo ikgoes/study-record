@@ -1,3 +1,5 @@
+// URL을 정규표현식을 통해 분해 구현 코드
+
 const DIRECTORY = /\..{2,3}$/g
 const SCHEME = /^(www\.)|:/g
 const DIRECTORY_WRONG = ".com/"
