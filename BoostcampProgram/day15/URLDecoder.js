@@ -12,29 +12,23 @@ class URI {
 class URL extends URI {
   constructor(URL) {
     super();
-    const autoComplete = (url) => {
-      if (DIRECTORY.test(url))
-        url += '/';
-      else
-        DIRECTORY.test(DIRECTORY_WRONG);
 
-      if (!(SCHEME.test(url))) {
-        url = "http://".concat(url);
-      } else
-        SCHEME.test(SCHEME_WRONG);
-
-      return url;
-    };
+    // URL을 파싱
     const URL_PARSER = /([^\b:$]+):(\/\/(([^\/\b:$]+):?([^:\b@$]+)?@)?([^\/\b:$]+)(:([\d]+))?)?([^\s^\?]+)(\?([^\s]+))?(#[^\s]+)?$/g
-    const URLSegment = URL_PARSER.exec(autoComplete(URL));
+    const URLSegment = URL_PARSER.exec(this.autoComplete(URL));
 
+    // read-only로 만들기 위한 변수 선언
+    let URLString = "";
     let path = URLSegment[9].split('/').filter(part => part !== "");
     path = ['/'].concat(path);
+
     const getPathComponents = () => {
-      return path;
+      return [...path];
     };
+
+    // URL의 속성들의 존재유무를 확인하여 재구성하는 함수
     const getAbsoluteString = () => {
-      let URLString = "";
+      URLString = "";
       URLString += this.scheme + "://";
       URLString += (this.user !== undefined) ? ((this.user) + ((this.password !== undefined) ? (":" + (this.password)) : "") + "@") : "";
       URLString += this.host;
@@ -46,6 +40,7 @@ class URL extends URI {
       return URLString;
     };
 
+    // 멤버 변수, pathComponents와 absoluteString는 read-only로 만들기 위해 함수 scope안에 선언
     this.scheme = URLSegment[1];
     this.user = URLSegment[4];
     this.password = URLSegment[5];
@@ -57,15 +52,33 @@ class URL extends URI {
     this.isFileURL = (this.scheme === "file");
     this.absoluteString = getAbsoluteString();
 
-    const checkValidity = () => {
-      if (this.scheme === undefined) {
-        throw "there is no scheme";
-      }
-      if (!this.host === undefined) {
-        throw "path is incorrect";
-      }
-    }
-    checkValidity();
+    // 입력된 URL이 가능한지 체크, 불가능 하면 Throw를 한다.
+    this.checkValidity();
+  }
+
+  checkValidity = () => {
+    if (this.scheme === undefined) // scheme 존재 유무
+      throw "there is no scheme";
+
+    if (!this.host === undefined) // host 존재 유무
+      throw "path is incorrect";
+
+    if (!isNaN(this.port) && this.port >= 65536) // 포트 존재 및 사이즈 확인
+      throw ("port is out of range")
+  }
+  // naver.com
+  autoComplete = (url) => {
+    if (DIRECTORY.test(url))
+      url += '/';
+    else
+      DIRECTORY.test(DIRECTORY_WRONG);
+    console.log(url);
+    if (!(SCHEME.test(url)))
+      url = "http://".concat(url);
+    else
+      SCHEME.test(SCHEME_WRONG);
+
+    return url;
   }
 
   appendPathComponent = (path) => {
@@ -86,8 +99,8 @@ class URL extends URI {
         if (testingURL.user === this.user && testingURL.password === this.password) {
           CONDITION = 1;
           if (this.pathComponents.every((value, index) => {
-            return (value === testingURL.pathComponents[index]);
-          }))
+              return (value === testingURL.pathComponents[index]);
+            }))
             CONDITION = 3;
         }
       }
@@ -96,28 +109,6 @@ class URL extends URI {
     return STATE_MESSAGE[CONDITION];
   }
 }
-
-/*
-const TEST_URL = () => {
-  var zumurl = new URL("http://admin@zum.com/#!/home?query=zum"); //
-
-  var naverurl = new URL("http://m.naver.com");
-  console.log(zumurl.isEqual(naverurl));
-
-  var url1 = new URL("http://admin@zum.com/#!/home?query=zum");
-  console.log(zumurl.isEqual(url1));
-
-  var url2 = new URL("http://admin@zum.com/#!/home");
-  console.log(zumurl.isEqual(url2));
-
-  var url3 = new URL("http://admin@zum.com/?param=zum");
-  console.log(zumurl.isEqual(url3));
-
-  var url4 = new URL("http://zum.com/#!/home");
-  console.log(zumurl.isEqual(url4));
-}
-
-TEST_URL(); */
 
 module.exports = {
   URL
